@@ -20,16 +20,43 @@
         padding: 5px;
         border: 1px solid #999;
       }
+
       .landing {
-        position: absolute;
-        top: 40px;
-        left: 50%;
-        margin-left: -180px;
+//        position: absolute;
+        bottom: 0px;
+        width: 100%;
         z-index: 5;
-        background-color: #fff;
         padding: 5px;
         border: 1px solid #999;
+      }
+      .landing ul li {
+        padding: 5px;
+        margin: 10px; 
+        background-color: #faa;
+        font-weight: bold;
+        font-family: arial;
+        font-size: 4em;
+      }
+      .left {
+        float:left;
       } 
+      .right{
+        float:right;
+      }
+      .landing-toggle {
+      }
+      .landing-toggle-btn {
+        font-weight: bold;
+        font-family: arial; 
+      }
+      .landing-container {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        z-index: 5;
+        padding: 5px;
+        border: 1px solid #999;
+      }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
@@ -37,12 +64,22 @@ var geocoder;
 var map;
 function initialize() {
   geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(-34.397, 150.644);
+  var latlng = new google.maps.LatLng(55.755773, 37.617815);
   var mapOptions = {
     zoom: 8,
     center: latlng
   }
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+}
+
+function panTo(id) {
+  var latlngArr = [
+    new google.maps.LatLng(55.755773, 37.617815),
+    new google.maps.LatLng(51.531528, 46.03582),
+    new google.maps.LatLng(45.023877, 38.970157)
+  ];
+  var latlng = latlngArr[id];
+  map.panTo(latlng);
 }
 
 function codeAddress() {
@@ -65,6 +102,18 @@ function codeAddress() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+
+function toggle_langing() {
+  var els = window.document.getElementsByClassName("landing-toggle"); 
+  for(var i = 0; i < els.length; ++i) {
+    if(els[i].style.display == 'none') {
+      els[i].style.display = '';
+    } else {
+      els[i].style.display = 'none';
+    }
+  }
+}
+
     </script>
   </head>
   <body>
@@ -72,9 +121,31 @@ google.maps.event.addDomListener(window, 'load', initialize);
       <input id="address" type="textbox" value="Sydney, NSW">
       <input type="button" value="Geocode" onclick="codeAddress()">
     </div>
-    <div class="landing">
-      <img src="images/image001.gif"/> 
+   
+    <div class="landing-container"> 
+    <a class="landing-toggle-btn" href=# onclick='toggle_langing(); false;'><span class="landing-toggle">[X] Hide</span><span class="landing-toggle" style="display: none;">[^] Show</span></a> 
+    <div class="landing landing-toggle">
+      <div class=left>
+        <img src="images/image001.gif"/>
+      </div>
+      <div class=left>
+      <ul>
+        <li><a href=#>Невролог</a></li>
+        <li><a href=#>Кардиолог</a></li>
+        <li><a href=#>Уролог</a></li>
+        <li><a href=#>Пульманолог</a></li>
+      </ul>
+      </div>
+      <div class=left>
+      <ul>
+        <li><a href=# onclick='panTo(0); toggle_langing(); false;'>Москва</a></li>
+        <li><a href=# onclick='panTo(1); toggle_langing(); false;'>Саратов</a></li>
+        <li><a href=# onclick='panTo(2); toggle_langing(); false;'>Краснодар</a></li>
+      </ul>
+      </div> 
+
     </div>
+    </div> 
     <div id="map-canvas"></div>
   </body>
 </html> 
